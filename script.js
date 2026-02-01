@@ -9,10 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const finalMessage = document.getElementById('finalMessage');
     const othersCheckbox = document.getElementById('othersCheckbox');
     const othersText = document.getElementById('othersText');
-
-    // Initialize EmailJS with your public key
-    // Replace 'YOUR_PUBLIC_KEY' with your actual EmailJS public key
-    emailjs.init('YOUR_PUBLIC_KEY');
+    const downloadBtn = document.getElementById('downloadBtn');
 
     // Card opening animation
     envelope.addEventListener('click', function() {
@@ -21,7 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show message section after envelope animation
         setTimeout(() => {
             messageSection.classList.add('visible');
-        }, 1200);
+        }, 1500);
     });
 
     // Handle "Yes" checkbox clicks
@@ -65,14 +62,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const selectedActivities = document.querySelectorAll('input[name="activity"]:checked');
         
         if (selectedActivities.length > 0) {
-            // Show loading state
-            const finalTitle = document.getElementById('finalTitle');
-            const finalSubtext = document.getElementById('finalSubtext');
-            const closingText = document.getElementById('closingText');
-            
-            finalTitle.textContent = 'Sending your choices...';
-            finalSubtext.style.display = 'none';
-            
             // Get activity labels
             const activities = Array.from(selectedActivities).map(cb => {
                 if (cb.value === 'others') {
@@ -88,58 +77,62 @@ document.addEventListener('DOMContentLoaded', function() {
                 `<li>${activity}</li>`
             ).join('');
             
-            // Prepare email parameters
-            const emailParams = {
-                to_email: 'YOUR_EMAIL@gmail.com', // Replace with your email
-                activities_list: activities.join(', '),
-                activities_html: activities.map(a => `• ${a}`).join('\n'),
-                date: new Date().toLocaleString()
-            };
+            // Set receipt date
+            const receiptDate = document.getElementById('receiptDate');
+            const now = new Date();
+            receiptDate.textContent = `Date: ${now.toLocaleDateString()} ${now.toLocaleTimeString()}`;
             
-            // Send email using EmailJS
-            // Replace 'YOUR_SERVICE_ID' and 'YOUR_TEMPLATE_ID' with your actual IDs
-            emailjs.send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', emailParams)
-                .then(function(response) {
-                    console.log('SUCCESS!', response.status, response.text);
-                    
-                    // Show success message
-                    finalTitle.textContent = 'Perfect! Can\'t wait!';
-                    finalSubtext.style.display = 'block';
-                    finalSubtext.textContent = 'You selected:';
-                    closingText.textContent = 'This is going to be the best Valentine\'s Day ever!';
-                    
-                    // Show final message
-                    finalMessage.classList.add('visible');
-                    
-                    // Scroll to final message
-                    setTimeout(() => {
-                        finalMessage.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'center' 
-                        });
-                    }, 100);
-                    
-                }, function(error) {
-                    console.log('FAILED...', error);
-                    
-                    // Show error but still display selections
-                    finalTitle.textContent = 'Got it!';
-                    finalSubtext.style.display = 'block';
-                    finalSubtext.textContent = 'You selected:';
-                    closingText.textContent = 'This is going to be the best Valentine\'s Day ever!';
-                    
-                    finalMessage.classList.add('visible');
-                    
-                    setTimeout(() => {
-                        finalMessage.scrollIntoView({ 
-                            behavior: 'smooth', 
-                            block: 'center' 
-                        });
-                    }, 100);
+            // Show final message
+            finalMessage.classList.add('visible');
+            
+            // Scroll to final message
+            setTimeout(() => {
+                finalMessage.scrollIntoView({ 
+                    behavior: 'smooth', 
+                    block: 'start' 
                 });
+            }, 100);
         } else {
             alert('Please select at least one activity!');
         }
+    });
+
+    // Handle download button
+    downloadBtn.addEventListener('click', function() {
+        const receiptContainer = document.getElementById('receiptContainer');
+        const downloadButton = document.getElementById('downloadBtn');
+        
+        // Hide download button before capturing
+        downloadButton.style.display = 'none';
+        
+        // Use html2canvas to convert the receipt to an image
+        html2canvas(receiptContainer, {
+            backgroundColor: '#ffffff',
+            scale: 2,
+            logging: false,
+            useCORS: true
+        }).then(canvas => {
+            // Show download button again
+            downloadButton.style.display = 'block';
+            
+            // Convert canvas to blob
+            canvas.toBlob(function(blob) {
+                // Create download link
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                const timestamp = new Date().getTime();
+                link.download = `valentines-date-receipt-${timestamp}.png`;
+                link.href = url;
+                link.click();
+                
+                // Clean up
+                URL.revokeObjectURL(url);
+            }, 'image/png');
+        }).catch(error => {
+            downloadButton.style.display = 'block';
+            console.error('Error generating image:', error);
+            alert('Could not save image. Please take a screenshot instead!');
+        });
     });
 
     // Activity items use default checkbox behavior

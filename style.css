@@ -25,35 +25,72 @@ body {
 /* Envelope Styles */
 .envelope {
     position: relative;
-    width: 320px;
-    height: 220px;
+    width: 340px;
+    height: 240px;
     margin: 50px auto;
-    background: #f8f0e3;
-    border: 2px solid #8b7355;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2), inset 0 0 10px rgba(139, 115, 85, 0.1);
+    background: linear-gradient(135deg, #faf8f3 0%, #f5ede3 100%);
+    border: 1px solid #d4c4a8;
+    box-shadow: 0 10px 30px rgba(90, 74, 58, 0.3), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(139, 115, 85, 0.2);
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.4s ease;
+    border-radius: 3px;
+}
+
+.envelope::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, #c9432d 0%, #a03525 100%);
+    border-radius: 50%;
+    box-shadow: 0 3px 10px rgba(201, 67, 45, 0.4),
+                inset 0 2px 5px rgba(255, 255, 255, 0.2),
+                inset 0 -2px 5px rgba(0, 0, 0, 0.3);
+    opacity: 0.9;
+    z-index: 3;
+}
+
+.envelope::after {
+    content: '♥';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    color: #f8f0e3;
+    z-index: 4;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
 .envelope:hover {
-    transform: scale(1.05) translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(90, 74, 58, 0.4), 
+                inset 0 1px 0 rgba(255, 255, 255, 0.5),
+                inset 0 -1px 0 rgba(139, 115, 85, 0.2);
 }
 
 .envelope.opened {
-    animation: envelopeOpen 1.2s ease forwards;
+    animation: envelopeOpen 1.5s ease forwards;
 }
 
 @keyframes envelopeOpen {
     0% {
-        transform: scale(1);
+        transform: scale(1) rotate(0deg);
         opacity: 1;
     }
-    50% {
-        transform: scale(1.05) translateY(-20px);
+    30% {
+        transform: scale(1.1) rotate(5deg);
+    }
+    60% {
+        transform: scale(0.9) rotate(-5deg) translateY(-50px);
     }
     100% {
-        transform: scale(0.8) translateY(-200px);
+        transform: scale(0.3) rotate(0deg) translateY(-250px);
         opacity: 0;
     }
 }
@@ -63,59 +100,65 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    height: 110px;
-    background: #d4c4a8;
-    border-bottom: 2px solid #8b7355;
-    clip-path: polygon(0 0, 50% 70%, 100% 0);
-    transform-origin: top;
-    transition: transform 1s ease;
-    z-index: 2;
+    height: 120px;
+    background: linear-gradient(180deg, #e8d8c8 0%, #d4c4a8 100%);
+    border-bottom: 1px solid #c9b896;
+    clip-path: polygon(0 0, 50% 75%, 100% 0);
+    transform-origin: top center;
+    transition: transform 1.2s ease;
+    z-index: 1;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
 }
 
 .envelope.opened .envelope-top {
     transform: rotateX(-180deg);
-    opacity: 0.3;
+    opacity: 0.2;
 }
 
 .letter {
     position: absolute;
-    top: 30px;
-    left: 30px;
-    right: 30px;
-    bottom: 30px;
-    background: #faf8f3;
-    border: 1px solid #c9b896;
+    top: 35px;
+    left: 35px;
+    right: 35px;
+    bottom: 35px;
+    background: linear-gradient(135deg, #fffef8 0%, #faf8f3 100%);
+    border: 2px solid #e8d8c8;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 1s ease, opacity 0.5s ease;
-    z-index: 1;
-    font-family: 'Caveat', cursive;
-    font-size: 20px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15),
+                inset 0 1px 0 rgba(255, 255, 255, 0.8);
+    transition: all 1.2s ease;
+    z-index: 2;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 18px;
     color: #5a4a3a;
+    border-radius: 2px;
 }
 
 .letter:hover {
-    background: #fffef8;
+    background: linear-gradient(135deg, #ffffff 0%, #fffef8 100%);
 }
 
 .envelope.opened .letter {
-    transform: translateY(-250px) scale(1.2);
-    animation: letterFloat 1s ease forwards;
+    animation: letterFloat 1.5s ease forwards;
 }
 
 @keyframes letterFloat {
     0% {
-        transform: translateY(0) scale(1);
+        transform: translateY(0) scale(1) rotate(0deg);
         opacity: 1;
     }
-    50% {
-        transform: translateY(-280px) scale(1.3) rotate(5deg);
-        opacity: 0.8;
+    40% {
+        transform: translateY(-200px) scale(1.4) rotate(-10deg);
+        opacity: 0.9;
+    }
+    70% {
+        transform: translateY(-280px) scale(1.2) rotate(5deg);
+        opacity: 0.5;
     }
     100% {
-        transform: translateY(-300px) scale(0.5);
+        transform: translateY(-350px) scale(0.4) rotate(0deg);
         opacity: 0;
     }
 }
@@ -440,63 +483,145 @@ body {
     overflow: hidden;
     transition: opacity 1s ease, max-height 1s ease;
     margin-top: 40px;
-    background: #f5e6d3;
+    background: white;
     padding: 0;
-    border: 2px dashed #c9432d;
-    text-align: center;
+    border: 3px solid #5a4a3a;
+    box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.1);
 }
 
 .final-message.visible {
     opacity: 1;
-    max-height: 500px;
-    padding: 30px;
+    max-height: 1000px;
+    padding: 0;
 }
 
-.final-message h2 {
+.receipt-container {
+    max-width: 450px;
+    margin: 0 auto;
+    background: white;
+    padding: 30px;
+    font-family: 'Courier New', monospace;
+}
+
+.receipt-header {
+    text-align: center;
+    border-bottom: 2px dashed #3a3a3a;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+.receipt-header h2 {
     font-family: 'Permanent Marker', cursive;
     color: #c9432d;
     font-size: 32px;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
-.final-message p {
+.receipt-header p {
     font-family: 'Caveat', cursive;
-    color: #3a3a3a;
-    font-size: 22px;
+    font-size: 20px;
+    color: #5a4a3a;
+    margin: 5px 0;
+}
+
+.receipt-date {
+    text-align: center;
+    font-size: 14px;
+    color: #7a6a5a;
+    margin-bottom: 20px;
+}
+
+.receipt-section {
+    margin: 20px 0;
+}
+
+.receipt-section h3 {
+    font-family: 'Permanent Marker', cursive;
+    color: #5a4a3a;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
 }
 
 .selected-list {
     list-style: none;
-    padding: 20px 0;
-    margin: 10px auto;
-    max-width: 400px;
-    text-align: left;
+    padding: 0;
+    margin: 0;
 }
 
 .selected-list li {
     font-family: 'Caveat', cursive;
-    font-size: 22px;
+    font-size: 20px;
     color: #3a3a3a;
-    padding: 8px 0;
-    border-bottom: 1px dashed #c9b896;
+    padding: 12px 10px;
+    border-bottom: 1px dotted #c9b896;
     position: relative;
-    padding-left: 25px;
+    padding-left: 35px;
 }
 
 .selected-list li:before {
     content: '✓';
     position: absolute;
-    left: 0;
+    left: 10px;
     color: #c9432d;
     font-weight: bold;
+    font-size: 20px;
 }
 
 .selected-list li:last-child {
-    border-bottom: none;
+    border-bottom: 2px dashed #3a3a3a;
+    padding-bottom: 20px;
 }
 
-.closing-text {
+.receipt-footer {
+    text-align: center;
     margin-top: 20px;
+    padding-top: 20px;
+    border-top: 2px dashed #3a3a3a;
+}
+
+.receipt-footer p {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: #c9432d;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.receipt-instruction {
+    font-family: 'Architects Daughter', cursive;
+    font-size: 16px;
+    color: #5a4a3a;
+    margin: 15px 0;
+    padding: 15px;
+    background: #faf8f3;
+    border-left: 4px solid #c9432d;
+}
+
+.download-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: #c9432d;
+    color: white;
+    border: 3px solid #a03525;
+    padding: 15px 40px;
+    font-family: 'Permanent Marker', cursive;
+    font-size: 18px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+}
+
+.download-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.25);
+    background: #a03525;
+}
+
+.download-btn:active {
+    transform: translateY(0);
+    box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* Paper texture effect */

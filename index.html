@@ -6,7 +6,7 @@
     <title>Valentine's Invitation</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Permanent+Marker&family=Architects+Daughter&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -124,10 +124,32 @@
             <button class="submit-btn" id="submitBtn">Submit My Choices</button>
             
             <div class="final-message" id="finalMessage">
-                <h2 id="finalTitle">Perfect! Can't wait!</h2>
-                <p id="finalSubtext">You selected:</p>
-                <ul class="selected-list" id="selectedList"></ul>
-                <p class="closing-text" id="closingText">This is going to be the best Valentine's Day ever!</p>
+                <div class="receipt-container" id="receiptContainer">
+                    <div class="receipt-header">
+                        <h2>Valentine's Date Receipt</h2>
+                        <p>From: Your Sweetheart</p>
+                        <p>To: The Best Valentine Ever</p>
+                    </div>
+                    
+                    <div class="receipt-date" id="receiptDate"></div>
+                    
+                    <div class="receipt-section">
+                        <h3>Selected Activities</h3>
+                        <ul class="selected-list" id="selectedList"></ul>
+                    </div>
+                    
+                    <div class="receipt-footer">
+                        <p>I said YES!</p>
+                        <p style="font-size: 28px; margin-top: 10px;">♥</p>
+                    </div>
+                    
+                    <div class="receipt-instruction">
+                        <strong>Instructions:</strong><br>
+                        Save this receipt and show it to your Valentine!
+                    </div>
+                    
+                    <button class="download-btn" id="downloadBtn">Save to Gallery</button>
+                </div>
             </div>
         </div>
     </div>
